@@ -29,8 +29,6 @@ fifo-uvm/
 ├── tb/
 │   ├── seq_item/
 │   ├── sequence/
-│   ├── driver/
-│   ├── monitor/
 │   ├── agent/
 │   ├── scoreboard/
 │   ├── env/
