@@ -17,7 +17,7 @@ module fifo_dut #(
 	
 	assign full_flag = (wr_ptr == rd_ptr);
 	assign empty_flag = ((wr_ptr - rd_ptr) == DEPTH);
-	
+
 	always_ff @( posedge clk ) begin : write_mem
 		if(rst) begin
 			wr_ptr <= 0;
@@ -27,7 +27,7 @@ module fifo_dut #(
 			wr_ptr <= wr_ptr + 1;
 		end
 	end
-	
+
 	always_ff @( posedge clk ) begin : read_mem
 		if(rst) begin
 			rd_ptr <= 0;
@@ -37,5 +37,4 @@ module fifo_dut #(
 			rd_ptr <= rd_ptr + 1;
 		end
 	end
-	
 endmodule
