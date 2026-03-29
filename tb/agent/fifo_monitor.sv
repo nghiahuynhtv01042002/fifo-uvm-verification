@@ -3,18 +3,16 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 	`uvm_component_param_utils(fifo_monitor_p)
 	
 	virtual fifo_if #(WIDTH) vfifo_if;
-	uvm_analysis_port#(fifo_trans #(WIDTH)) ap;
-	fifo_trans #(WIDTH) mon_trans;
+	uvm_analysis_port#(fifo_trans #(WIDTH)) a_port;
 	
 	function new(string name = "fifo_monitor", uvm_component parent = null);
 		super.new(name, parent);
-		item_collect_port = new("item_collect_port",this);
-		mon_trans = new();
+		a_port = new("a_port",this);
 	endfunction
 	
 	virtual function build_phase(uvm_phase phase);
 		super.build_phase(phase);
-		if(! uvm_config_db#(virtual fifo_if #(WIDTH)::get(this,"", "vfifo_if",vfifo_if))) begin
+		if(!uvm_config_db#(virtual fifo_if #(WIDTH))::get(this,"", "vfifo_if",vfifo_if)) begin
 			`uvm_fatal(get_type_name(),"No virtual interface vfifo_if specified for monitor");
 		end
 	endfunction
@@ -32,8 +30,7 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 			if (vfifo_if.rd_en)
 				tr.data_rd = vfifo_if.data_rd;
 				
-			ap.write(tr);
-			item_collect_port.write(mon_trans);
+			a_port.write(tr);
 			'uvm_info(get_type_name(),"[MONITOR] contain the temp logic",UVM_LOW);
 			
 		end
