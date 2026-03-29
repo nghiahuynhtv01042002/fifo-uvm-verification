@@ -9,7 +9,7 @@ module fifo_dut #(
 	input logic [WIDTH - 1 : 0] data_wr,
 	output logic [WIDTH - 1 : 0] data_rd,
 	output logic full_flag,
-	output logic empty_flag,
+	output logic empty_flag
 );
 	logic [WIDTH -1 : 0] mem[DEPTH];
 	logic [$clog2(DEPTH) -1 : 0] wr_ptr;

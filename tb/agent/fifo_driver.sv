@@ -1,13 +1,14 @@
 class fifo_driver #(int WIDTH = 8 ) 
 	extends uvm_driver#(fifo_trans #(WIDTH));
 	
+	typedef fifo_driver #(int WIDTH) fifo_driver_p;
+	`uvm_component_param_utils(fifo_driver_p);
+	
 	virtual fifo_if #(WIDTH) vfifo_if;
 	
 	function new(string name = "fifo_driver", uvm_component parent = null);
 		super.new(name, parent);
-		
 	endfunction 
-	
 	
 	virtual function build_phase(uvm_phase phase);
 		super.build_phase(phase);
@@ -21,6 +22,8 @@ class fifo_driver #(int WIDTH = 8 )
 		forever begin
 			// get next sequence from the sequencer
 			seq_item_port.get_next_item(tr); 
+			// temp logic
+			'uvm_info(get_type_name(),"[DRIVER] contain the temp logic",UVM_LOW);
 			
 			vfifo_if.wr_en <= tr.wr_en;
 			vfifo_if.rd_en <= tr.rd_en;
