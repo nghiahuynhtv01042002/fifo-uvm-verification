@@ -3,11 +3,11 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 	`uvm_component_param_utils(fifo_monitor_p)
 	
 	virtual fifo_if #(WIDTH) vfifo_if;
-	uvm_analysis_port#(fifo_trans #(WIDTH)) a_port;
+	uvm_analysis_port#(fifo_trans #(WIDTH)) analysis_port;
 	
 	function new(string name = "fifo_monitor", uvm_component parent = null);
 		super.new(name, parent);
-		a_port = new("a_port",this);
+		analysis_port = new("analysis_port",this);
 	endfunction
 	
 	virtual function build_phase(uvm_phase phase);
@@ -30,7 +30,7 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 			if (vfifo_if.rd_en)
 				tr.data_rd = vfifo_if.data_rd;
 				
-			a_port.write(tr);
+			analysis_port.write(tr);
 			'uvm_info(get_type_name(),"[MONITOR] contain the temp logic",UVM_LOW);
 			
 		end
