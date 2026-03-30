@@ -23,7 +23,7 @@ class fifo_driver #(int WIDTH = 8 )
 			// get next sequence from the sequencer
 			seq_item_port.get_next_item(tr); 
 			// temp logic
-			'uvm_info(get_type_name(),"[DRIVER] contain the temp logic",UVM_LOW);
+			`uvm_info(get_type_name(),"[DRIVER] contain the temp logic",UVM_LOW);
 			
 			vfifo_if.wr_en <= tr.wr_en;
 			vfifo_if.rd_en <= tr.rd_en;

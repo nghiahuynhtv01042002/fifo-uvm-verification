@@ -31,8 +31,7 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 				tr.data_rd = vfifo_if.data_rd;
 				
 			analysis_port.write(tr);
-			'uvm_info(get_type_name(),"[MONITOR] contain the temp logic",UVM_LOW);
-			
+			`uvm_info(get_type_name(),"[MONITOR] contain the temp logic",UVM_LOW);
 		end
 	endtask
 endclass //fifo_monitor

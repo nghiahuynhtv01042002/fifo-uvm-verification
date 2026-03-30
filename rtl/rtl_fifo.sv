@@ -15,8 +15,8 @@ module fifo_dut #(
 	logic [$clog2(DEPTH) -1 : 0] wr_ptr;
 	logic [$clog2(DEPTH) -1 : 0] rd_ptr;
 	
-	assign full_flag = (wr_ptr == rd_ptr);
-	assign empty_flag = ((wr_ptr - rd_ptr) == DEPTH);
+	assign empty_flag = (wr_ptr == rd_ptr);
+	assign full_flag  = ((wr_ptr - rd_ptr) == DEPTH);
 
 	always_ff @( posedge clk ) begin : write_mem
 		if(rst) begin
