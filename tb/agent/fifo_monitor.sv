@@ -10,7 +10,7 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 		analysis_port = new("analysis_port",this);
 	endfunction
 	
-	virtual function build_phase(uvm_phase phase);
+	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		if(!uvm_config_db#(virtual fifo_if #(WIDTH))::get(this,"", "vfifo_if",vfifo_if)) begin
 			`uvm_fatal(get_type_name(),"No virtual interface vfifo_if specified for monitor");

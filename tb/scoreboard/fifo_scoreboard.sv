@@ -11,7 +11,7 @@ class fifo_scoreboard #(int WIDTH = 8, int DEPTH = 16) extends uvm_scoreboard;
 		analysis_export = new("analysis_export",this);
 	endfunction
 	
-	virtual function build_phase (uvm_phase phase);
+	virtual function void build_phase (uvm_phase phase);
 		super.build_phase(phase);
 	endfunction
 	

@@ -10,7 +10,7 @@ class fifo_driver #(int WIDTH = 8 )
 		super.new(name, parent);
 	endfunction 
 	
-	virtual function build_phase(uvm_phase phase);
+	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		if (! uvm_config_db#(virtual fifo_if #(WIDTH))::get(this,"","vfifo_if",vfifo_if)) begin
 			`uvm_fatal(get_type_name(), "Didn't get handle to virtual interface vfifo_if" );
