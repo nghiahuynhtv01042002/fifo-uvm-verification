@@ -10,7 +10,7 @@ class fifo_agent #(int WIDTH = 8) extends uvm_agent;
 		super.new(name, parent);
 	endfunction
 
-	virtual function build_phase(uvm_phase phase);
+	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		if (get_is_active() == UVM_ACTIVE) begin
 			fifo_seqr = fifo_sequencer::type_id::create("fifo_seqr", this);
@@ -26,8 +26,8 @@ class fifo_agent #(int WIDTH = 8) extends uvm_agent;
 		end
 	endfunction
 
-	virtual task connect_phase(uvm_phase phase);
+	virtual function void connect_phase(uvm_phase phase);
 		seq_item_port.connect(fifo_seqr.seq_item_export);
 		fifo_mon.analysis_port.connect(scoreboard.analysis_export);
-	endtask
+	endfunction
 endclass //fifo_agent
