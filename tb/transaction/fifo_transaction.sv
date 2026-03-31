@@ -1,5 +1,5 @@
 class fifo_trans #(int WIDTH = 8) extends uvm_sequence_item ;
-	typedef fifo_trans #(int WIDTH) fifo_trans_p;
+	typedef fifo_trans #(WIDTH) fifo_trans_p;
 	
 	rand logic wr_en;
 	rand logic rd_en;

@@ -28,6 +28,6 @@ class fifo_agent #(int WIDTH = 8) extends uvm_agent;
 
 	virtual task connect_phase(uvm_phase phase);
 		seq_item_port.connect(fifo_seqr.seq_item_export);
-		//fifo_mon.ap.connect(scoreboard.analysis_export);
+		fifo_mon.analysis_port.connect(scoreboard.analysis_export);
 	endtask
 endclass //fifo_agent
