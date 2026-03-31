@@ -1,7 +1,7 @@
 class fifo_sequence #(int WIDTH = 8) 
 	extends uvm_sequence #(fifo_trans #(WIDTH));
 	
-	typedef fifo_sequence #(int WIDTH) fifo_sequence_p;
+	typedef fifo_sequence #(WIDTH) fifo_sequence_p;
 	`uvm_object_param_utils(fifo_sequence_p)
 	function new(string name = "fifo_sequence");
 		super.new(name);
@@ -21,7 +21,7 @@ endclass
 class fifo_write_sequence #(int WIDTH = 8)
 	extends uvm_sequence#(fifo_trans #(WIDTH));
 	
-	typedef fifo_write_sequence #(int WIDTH) fifo_write_sequence_p;
+	typedef fifo_write_sequence #(WIDTH) fifo_write_sequence_p;
 	`uvm_object_param_utils(fifo_write_sequence_p)
 	
 	function new(string name = "fifo_write_sequence");
@@ -45,7 +45,7 @@ endclass //fifo_write_sequence
 class fifo_read_sequence #(int WIDTH = 8)
 	extends uvm_sequence#(fifo_trans #(WIDTH));
 	
-	typedef fifo_read_sequence #(int WIDTH) fifo_read_sequence_p;
+	typedef fifo_read_sequence #(WIDTH) fifo_read_sequence_p;
 	`uvm_object_param_utils(fifo_read_sequence_p)
 	
 	function new(string name = "fifo_read_sequence");

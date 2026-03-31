@@ -1,7 +1,7 @@
 class fifo_driver #(int WIDTH = 8 ) 
 	extends uvm_driver#(fifo_trans #(WIDTH));
 	
-	typedef fifo_driver #(int WIDTH) fifo_driver_p;
+	typedef fifo_driver #(WIDTH) fifo_driver_p;
 	`uvm_component_param_utils(fifo_driver_p);
 	
 	virtual fifo_if #(WIDTH) vfifo_if;

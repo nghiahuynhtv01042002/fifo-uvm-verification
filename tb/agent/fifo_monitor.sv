@@ -1,5 +1,5 @@
 class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
-	typedef fifo_monitor #(int WIDTH) fifo_monitor_p;
+	typedef fifo_monitor #(WIDTH) fifo_monitor_p;
 	`uvm_component_param_utils(fifo_monitor_p)
 	
 	virtual fifo_if #(WIDTH) vfifo_if;
