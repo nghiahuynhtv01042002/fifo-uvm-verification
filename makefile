@@ -4,8 +4,17 @@ BUILD_DIR = de
 
 UVM_TEST ?=fifo_mixed_random_test
 
-TESTS = fifo_write_test fifo_read_test  \
-# fifo_base_test fifo_write_stress_test fifo_read_stress_test fifo_mixed_random_test fifo_simultaneous_rw_test fifo_overflow_test fifo_underflow_test fifo_boundary_test fifo_reset_during_activity_test
+TESTS = fifo_write_test \
+		fifo_read_test \
+		fifo_base_test \
+		fifo_write_stress_test \
+		fifo_read_stress_test \
+		fifo_mixed_random_test \
+		fifo_simultaneous_rw_test \
+		fifo_overflow_test \
+		fifo_underflow_test \
+		fifo_boundary_test \
+		fifo_reset_during_activity_test
 
 TESTS_CSV := $(shell echo $(TESTS) | tr ' ' ',')
 
@@ -42,12 +51,19 @@ elab: compile
 run: elab
 	@echo "=== Running Simulation ==="
 	cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) --testplusarg UVM_TEST=$(UVM_TEST)
-
+	
 regression: compile elab
-	@echo "=== Running regression (single run) for tests: $(TESTS_CSV) ==="
+	@echo "=== Running Regression ==="
 	@mkdir -p $(BUILD_DIR)/logs
-	@cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) --testplusarg +UVM_TEST=$(TESTS_CSV) -log logs/regression.log
-
+	@for t in $(TESTS); do \
+		echo "Running test: $$t"; \
+		cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) \
+		-testplusarg UVM_TESTNAME=$$t \
+		-log logs/$$t.log; \
+		cd ..; \
+	done
+	@echo "=== Regression Finished. Check $(BUILD_DIR)/logs for results."
+	
 gui: elab
 	@echo "=== Opening GUI ==="
 	cd $(BUILD_DIR) && xsim $(SIM_NAME) -gui
@@ -64,6 +80,19 @@ help:
 	@echo ""
 	@echo "Targets:"
 	@echo "  make         - Compile, elaborate, run simulation"
+	@echo "  make run UVM_TEST=<testname>"
+	@echo "testname list: "
+	@echo "    fifo_write_test"
+	@echo "    fifo_read_test"
+	@echo "    fifo_base_test"
+	@echo "    fifo_write_stress_test"
+	@echo "    fifo_read_stress_test"
+	@echo "    fifo_mixed_random_test"
+	@echo "    fifo_simultaneous_rw_test"
+	@echo "    fifo_overflow_test"
+	@echo "    fifo_underflow_test"
+	@echo "    fifo_boundary_test"
+	@echo "    fifo_reset_during_activity_test"
 	@echo "  make compile - Compile sources only"
 	@echo "  make elab    - Compile and elaborate"
 	@echo "  make run     - Run simulation (use UVM_TEST=testname)"
