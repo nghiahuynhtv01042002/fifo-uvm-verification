@@ -13,18 +13,18 @@ class fifo_base_test #(int WIDTH = 8, int DEPTH =16 ) extends uvm_test;
 		phase.raise_objection(this);
 
 		seq = fifo_sequence#(WIDTH)::type_id::create("seq");
-		seq.start(env.fifo_agt.fifo_seqr);
+		seq.start(fifo_env.fifo_agt.fifo_seqr);
  
 		phase.drop_objection(this);
 	endtask
-endclass // fifo_base_test
+endclass
 
 class fifo_write_test #(int WIDTH = 8, int DEPTH = 16)
 	extends fifo_base_test #(WIDTH, DEPTH);
  
 	typedef fifo_write_test #(WIDTH, DEPTH) fifo_write_test_p;
 	`uvm_component_param_utils(fifo_write_test_p)
- 
+	
 	function new(string name = "fifo_write_test", uvm_component parent = null);
 		super.new(name, parent);
 	endfunction
@@ -34,18 +34,16 @@ class fifo_write_test #(int WIDTH = 8, int DEPTH = 16)
 		fifo_read_sequence  #(WIDTH) rd_seq;
 		phase.raise_objection(this);
  
-		// Write DEPTH entries.
 		wr_seq = fifo_write_sequence#(WIDTH)::type_id::create("wr_seq");
-		wr_seq.start(env.fifo_agt.fifo_seqr);
+		wr_seq.start(fifo_env.fifo_agt.fifo_seqr);
  
-		// Read them all back.
 		rd_seq = fifo_read_sequence#(WIDTH)::type_id::create("rd_seq");
-		rd_seq.start(env.fifo_agt.fifo_seqr);
+		rd_seq.start(fifo_env.fifo_agt.fifo_seqr);
  
 		phase.drop_objection(this);
 	endtask
  
-endclass // fifo_write_test
+endclass
  
 class fifo_read_test #(int WIDTH = 8, int DEPTH = 16)
 	extends fifo_base_test #(WIDTH, DEPTH);
@@ -62,9 +60,16 @@ class fifo_read_test #(int WIDTH = 8, int DEPTH = 16)
 		phase.raise_objection(this);
 		
 		rd_seq = fifo_read_sequence#(WIDTH)::type_id::create("rd_seq");
-		rd_seq.start(env.fifo_agt.fifo_seqr);
+		rd_seq.start(fifo_env.fifo_agt.fifo_seqr);
  
 		phase.drop_objection(this);
 	endtask
- 
-endclass : fifo_read_test
+endclass
+
+
+class fifo_write_test_run extends fifo_write_test#(int WIDTH = 8,int DEPTH = 16);
+	`uvm_component_utils(fifo_write_test_run)
+	function new(string name = "fifo_write_test_run", uvm_component parnet = null);
+		super.new(name,parent);
+	endfunction
+endclass

@@ -24,6 +24,7 @@ module tb_top;
 		.data_rd	(fifo_vif.data_rd),
 		.full_flag	(fifo_vif.full_flag),
 		.empty_flag	(fifo_vif.empty_flag)
+		 
 	);
 	
 	initial begin
@@ -46,6 +47,6 @@ module tb_top;
 	end
 	
 	initial begin
-		run_test();
+		run_test("fifo_write_test_run");
 	end
 endmodule

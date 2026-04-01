@@ -2,7 +2,7 @@ class fifo_scoreboard #(int WIDTH = 8, int DEPTH = 16) extends uvm_scoreboard;
 	typedef fifo_scoreboard #(WIDTH, DEPTH) fifo_scoreboard_p;
 	`uvm_component_param_utils(fifo_scoreboard_p)
 	
-	uvm_analysis_imp #(fifo_trans #(WIDTH, DEPTH), fifo_scoreboard) analysis_export;
+	uvm_analysis_imp #(fifo_trans #(WIDTH), fifo_scoreboard) analysis_export;
 	
 	bit [WIDTH-1:0] fifo_model_q[$];
 
