@@ -34,6 +34,8 @@ module tb_top;
 			"vfifo_if",
 			fifo_vif
 		);
+		uvm_config_db #(int) :: set (null,"*","WIDTH",WIDTH); 
+		uvm_config_db #(int) :: set (null,"*","DEPTH",DEPTH); 
 	end
 	
 	initial begin
@@ -47,6 +49,6 @@ module tb_top;
 	end
 	
 	initial begin
-		run_test("fifo_write_test_run");
+		run_test("fifo_write_test");
 	end
 endmodule
