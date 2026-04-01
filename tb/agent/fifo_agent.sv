@@ -4,6 +4,9 @@ class fifo_agent #(int WIDTH = 8) extends uvm_agent;
 	fifo_driver #(WIDTH) fifo_drv;
 	fifo_monitor #(WIDTH) fifo_mon;
 	
+	typedef fifo_agent#(WIDTH) fifo_agent_p;
+	`uvm_component_param_utils(fifo_agent_p)
+	
 	virtual fifo_if #(WIDTH) vfifo_if;
 	
 	function new(string name = "fifo_agent", uvm_component parent = null);
@@ -27,7 +30,6 @@ class fifo_agent #(int WIDTH = 8) extends uvm_agent;
 	endfunction
 
 	virtual function void connect_phase(uvm_phase phase);
-		seq_item_port.connect(fifo_seqr.seq_item_export);
-		fifo_mon.analysis_port.connect(scoreboard.analysis_export);
+		fifo_drv.seq_item_port.connect(fifo_seqr.seq_item_export);
 	endfunction
 endclass //fifo_agent
