@@ -49,6 +49,6 @@ module tb_top;
 	end
 	
 	initial begin
-		run_test("fifo_write_test");
+		run_test("");
 	end
 endmodule

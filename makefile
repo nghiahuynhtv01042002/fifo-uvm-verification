@@ -2,26 +2,33 @@ TOPMODULE = tb_top
 SIM_NAME = fifo_tb
 BUILD_DIR = de
 
-COMPILE_FLAGS = -sv -L uvm
+UVM_TEST ?=fifo_mixed_random_test
 
-ELAB_FLAGS = -L uvm -s $(SIM_NAME) --timescale 1ns/1ps
-RUN_FLAGS = -runall -log $(BUILD_DIR)/sim.log
+TESTS = fifo_write_test fifo_read_test  \
+# fifo_base_test fifo_write_stress_test fifo_read_stress_test fifo_mixed_random_test fifo_simultaneous_rw_test fifo_overflow_test fifo_underflow_test fifo_boundary_test fifo_reset_during_activity_test
+
+TESTS_CSV := $(shell echo $(TESTS) | tr ' ' ',')
+
+COMPILE_FLAGS = -sv -L uvm
+ELAB_FLAGS = -L uvm -s $(SIM_NAME) -timescale 1ns/1ps 
+
+RUN_FLAGS = -R -log sim.log
 
 RTL_FILES = \
-	rtl/rtl_fifo.sv
+    rtl/rtl_fifo.sv
 
 INTF_FILES = \
-	tb/interface/fifo_if.sv
+    tb/interface/fifo_if.sv
 
 TB_PKG_FILES = \
-	tb/pkg/fifo_pkg.sv
+    tb/pkg/fifo_pkg.sv
 
 TB_TOP_FILES = \
-	tb/top_module/fifo_tb_top.sv
+    tb/top_module/fifo_tb_top.sv
 
-SOURCE_FILES = $(RTL_FILES) $(INTF_FILES) $(TB_PKG_FILES) $(TB_TOP_FILES)
+SOURCE_FILES = $(RTL_FILES) $(INTF_FILES) $(TB_PKG_FILES) $(TB_TOP_FILES) 
 
-all: compile elab run
+all: run
 
 compile:
 	@mkdir -p $(BUILD_DIR)
@@ -34,7 +41,12 @@ elab: compile
 
 run: elab
 	@echo "=== Running Simulation ==="
-	cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS)
+	cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) --testplusarg UVM_TEST=$(UVM_TEST)
+
+regression: compile elab
+	@echo "=== Running regression (single run) for tests: $(TESTS_CSV) ==="
+	@mkdir -p $(BUILD_DIR)/logs
+	@cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) --testplusarg +UVM_TEST=$(TESTS_CSV) -log logs/regression.log
 
 gui: elab
 	@echo "=== Opening GUI ==="
@@ -43,6 +55,7 @@ gui: elab
 clean:
 	@echo "=== Cleaning build directory ==="
 	rm -rf $(BUILD_DIR)
+	rm -rf xvlog.log xvlog.pb xelab.log xelab.pb xsim.log xsim.pb webtalk.log webtalk.jou xsim.dir
 
 help:
 	@echo "FIFO UVM Verification Makefile"
@@ -50,11 +63,11 @@ help:
 	@echo "Build artifacts are stored in: $(BUILD_DIR)/"
 	@echo ""
 	@echo "Targets:"
-	@echo "  make        - Compile, elaborate, run simulation"
+	@echo "  make         - Compile, elaborate, run simulation"
 	@echo "  make compile - Compile sources only"
 	@echo "  make elab    - Compile and elaborate"
-	@echo "  make run     - Run simulation"
+	@echo "  make run     - Run simulation (use UVM_TEST=testname)"
 	@echo "  make gui     - Open waveform viewer"
-	@echo "  make clean   - Remove build directory"
+	@echo "  make clean   - Remove build directory and Vivado root logs"
 
-.PHONY: all compile elab run gui clean help
+.PHONY: all compile elab run regression gui clean help
