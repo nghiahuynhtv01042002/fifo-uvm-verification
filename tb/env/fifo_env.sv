@@ -12,7 +12,7 @@ class fifo_env #(int WIDTH = 8, int DEPTH = 16) extends uvm_env;
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
 		fifo_agt = fifo_agent #(WIDTH)::type_id::create("fifo_agt", this);
-		fifo_sb  = fifo_scoreboard#(WIDTH, DEPTH)::type_id::create("fifo_sb",  this);
+		fifo_sb  = fifo_scoreboard#(WIDTH, DEPTH)::type_id::create("fifo_sb", this);
 	endfunction
 
 	virtual function void connect_phase(uvm_phase phase);
