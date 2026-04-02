@@ -11,12 +11,13 @@ module fifo_dut #(
 	output logic full_flag,
 	output logic empty_flag
 );
-	logic [WIDTH -1 : 0] mem[DEPTH];
-	logic [$clog2(DEPTH) -1 : 0] wr_ptr;
-	logic [$clog2(DEPTH) -1 : 0] rd_ptr;
+	logic [WIDTH -1 : 0] mem[0:DEPTH -1];
+	logic [$clog2(DEPTH) : 0] wr_ptr;
+	logic [$clog2(DEPTH) : 0] rd_ptr;
 	
 	assign empty_flag = (wr_ptr == rd_ptr);
-	assign full_flag  = ((wr_ptr - rd_ptr) == DEPTH);
+	assign full_flag = (wr_ptr[$clog2(DEPTH)] != rd_ptr[$clog2(DEPTH)]) &&
+						(wr_ptr[$clog2(DEPTH)-1:0] == rd_ptr[$clog2(DEPTH)-1:0]);
 
 	always_ff @( posedge clk ) begin : write_mem
 		if(rst) begin

@@ -20,18 +20,13 @@ class fifo_driver #(int WIDTH = 8 )
 	virtual task run_phase(uvm_phase phase);
 		fifo_trans #(WIDTH) tr;
 		forever begin
-			// get next sequence from the sequencer
-			seq_item_port.get_next_item(tr); 
-			// temp logic
-			`uvm_info(get_type_name(),"[DRIVER] contain the temp logic",UVM_LOW);
-			
-			vfifo_if.wr_en <= tr.wr_en;
-			vfifo_if.rd_en <= tr.rd_en;
-			vfifo_if.data_wr <= tr.data_wr;
-			@(posedge vfifo_if.clk);
-			if (tr.rd_en) 
-				tr.data_rd <= vfifo_if.data_rd;
+			seq_item_port.get_next_item(tr);
 
+			@(posedge vfifo_if.clk);
+			vfifo_if.wr_en   <= tr.wr_en;
+			vfifo_if.data_wr <= tr.data_wr;
+			vfifo_if.rd_en <= tr.rd_en;
+			
 			seq_item_port.item_done();
 		end
 	endtask

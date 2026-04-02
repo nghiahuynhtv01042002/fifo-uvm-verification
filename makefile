@@ -2,7 +2,7 @@ TOPMODULE = tb_top
 SIM_NAME = fifo_tb
 BUILD_DIR = de
 
-UVM_TEST ?=fifo_mixed_random_test
+UVM_TEST ?=fifo_read_test
 
 TESTS = fifo_write_test \
 		fifo_read_test \
@@ -50,7 +50,7 @@ elab: compile
 
 run: elab
 	@echo "=== Running Simulation ==="
-	cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) --testplusarg UVM_TEST=$(UVM_TEST)
+	cd $(BUILD_DIR) && xsim $(SIM_NAME) $(RUN_FLAGS) --testplusarg UVM_TESTNAME=$(UVM_TEST)
 	
 regression: compile elab
 	@echo "=== Running Regression ==="
