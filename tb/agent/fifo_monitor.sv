@@ -20,8 +20,8 @@ class fifo_monitor #(int WIDTH = 8) extends uvm_monitor;
 	virtual task run_phase(uvm_phase phase);
 		fifo_trans #(WIDTH) tr;
 		forever begin
-			// temp logic
 			@(posedge vfifo_if.clk);
+			#1step;
 			tr = fifo_trans#(WIDTH)::type_id::create("tr_mon");
 			tr.wr_en   = vfifo_if.wr_en;
 			tr.rd_en   = vfifo_if.rd_en;
